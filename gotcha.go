@@ -38,7 +38,7 @@ func (a *Asserter) AreEqual(left, right interface{}, message string) *Asserter {
 	return a
 }
 
-func (a *Asserter) AreNotEqual(left, right, interface{}, message string) *Asserter {
+func (a *Asserter) AreNotEqual(left, right interface{}, message string) *Asserter {
 	if left == right {
 		a.t.Fatalf("%s. Expected %+v to not equal both arguments")
 	}
