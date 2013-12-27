@@ -7,7 +7,7 @@ package mymath
 
 import (
 	"testing"
-	_ "github.com/anthonybishopric/gotcha"
+	. "github.com/anthonybishopric/gotcha"
 )
 
 func TestBasicAddition(t *testing.T) {
