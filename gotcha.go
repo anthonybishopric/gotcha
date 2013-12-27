@@ -19,14 +19,28 @@ func Assert(t Failer) *Asserter {
 
 func (a *Asserter) IsTrue(statement bool, message string) *Asserter {
 	if !statement {
-		a.t.Fatalf(message)
+		a.t.Fatalf("%s. Was unexpectedly false.", message)
 	}
 	return a
 }
 
 func (a *Asserter) AreEqual(left, right interface{}, message string) *Asserter {
 	if left != right {
-		a.t.Fatalf(message)
+		a.t.Fatalf("%s. Expected %+v to equal %+v.", message, left, right)
+	}
+	return a
+}
+
+func (a *Asserter) IsNil(subject interface{}, message string) *Asserter {
+	if subject != nil {
+		a.t.Fatalf("%s. Expected %+v to be nil", message, subject)
+	}
+	return a
+}
+
+func (a *Asserter) IsNotNil(subject interface{}, message string) *Asserter {
+	if subject == nil {
+		a.t.Fatalf("%s. Was unexepectedly nil", message)
 	}
 	return a
 }
