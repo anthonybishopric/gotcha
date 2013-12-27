@@ -45,6 +45,10 @@ func (a *Asserter) IsNotNil(subject interface{}, message string) *Asserter {
 	return a
 }
 
+func (a *Asserter) Fail(message string) {
+	a.t.Fatalf(message)
+}
+
 func (a *Asserter) Matches(subject interface{}, matcher Matcher, message string) {
 	if !matcher(subject) {
 		a.t.Fatalf(message)
