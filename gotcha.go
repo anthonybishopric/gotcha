@@ -24,9 +24,23 @@ func (a *Asserter) IsTrue(statement bool, message string) *Asserter {
 	return a
 }
 
+func (a *Asserter) IsFalse(statement bool, message string) *Asserter {
+	if statement {
+		a.t.Fatalf("%s. Was unexpectedly true.", message)
+	}
+	return a
+}
+
 func (a *Asserter) AreEqual(left, right interface{}, message string) *Asserter {
 	if left != right {
 		a.t.Fatalf("%s. Expected %+v to equal %+v.", message, left, right)
+	}
+	return a
+}
+
+func (a *Asserter) AreNotEqual(left, right, interface{}, message string) *Asserter {
+	if left == right {
+		a.t.Fatalf("%s. Expected %+v to not equal both arguments")
 	}
 	return a
 }
