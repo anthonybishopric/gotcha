@@ -1,6 +1,6 @@
 # Gotcha: Super Simple Assertions for Go
 
-Don't want to have to run a code generator to write test assertions? Sick of dropping boilerplate test runner code in every test file? Gotcha is a super simple Assertion library that works with both tests 
+Don't want to have to run a code generator to write test assertions? Sick of dropping boilerplate test runner code in every test file? Gotcha is a super simple Assertion library that just works.
 
 ```go
 package mymath
@@ -46,6 +46,5 @@ func ValidPassword(s interface{}) bool {
 }
 
 Assert(t).Matches(password, ValidPassword)
-
 ```
 
