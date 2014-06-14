@@ -9,6 +9,8 @@ type Failer interface {
 
 type Matcher func(interface{}) bool
 
+type Comparator func(interface{}, interface{}) bool
+
 type Asserter struct {
 	t Failer
 }
@@ -66,5 +68,17 @@ func (a *Asserter) Fail(message string) {
 func (a *Asserter) Matches(subject interface{}, matcher Matcher, message string) {
 	if !matcher(subject) {
 		a.t.Fatalf(message)
+	}
+}
+
+func (a *Asserter) EachMatch(left []interface{}, right []interface{}, comparator Comparator, message string) {
+	if len(left) != len(right) {
+		a.t.Fatalf("%s. Left and right don't match in length. (%d, %d)", message, len(left), len(right))
+	}
+	for i, l := range left {
+		r := right[i]
+		if !comparator(l, r) {
+			a.t.Fatalf(message)
+		}
 	}
 }

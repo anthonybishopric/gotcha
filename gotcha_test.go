@@ -63,3 +63,31 @@ func TestMatcherWillFailOnFalse(t *testing.T) {
 
 	Assert(t).AreEqual("the message", fake.receivedMessage, "Expected the message to not be empty")
 }
+
+func TestComparatorPassesOnTrue(t *testing.T) {
+	fake := FakeTest{}
+	Assert(&fake).EachMatch([]interface{}{1, 2, 3}, []interface{}{2, 4, 6}, func(x, y interface{}) bool {
+		i, j := x.(int), y.(int)
+		return i*2 == j
+	}, "the message")
+}
+
+func TestComparatorFailsOnFalse(t *testing.T) {
+	fake := FakeTest{}
+	Assert(&fake).EachMatch([]interface{}{1, 2, 3}, []interface{}{2, 4, 6}, func(x, y interface{}) bool {
+		i, j := x.(int), y.(int)
+		return i*5 == j
+	}, "the message")
+
+	Assert(t).AreEqual("the message", fake.receivedMessage, "Expected the comparator to return false and be a failure")
+}
+
+func TestComparatorFailsWhenMismatchedElementCount(t *testing.T) {
+	fake := FakeTest{}
+	Assert(&fake).EachMatch([]interface{}{1, 2, 3}, []interface{}{2, 4, 6, 8}, func(x, y interface{}) bool {
+		i, j := x.(int), y.(int)
+		return i*2 == j
+	}, "the message")
+
+	Assert(t).AreEqual("the message. Left and right don't match in length. (3, 4)", fake.receivedMessage, "Expected the comparator to return false and be a failure")
+}
