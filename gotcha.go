@@ -82,3 +82,11 @@ func (a *Asserter) EachMatch(left []interface{}, right []interface{}, comparator
 		}
 	}
 }
+
+func Equality(l, r interface{}) bool {
+	return l == r
+}
+
+func Inequality(l, r interface{}) bool {
+	return l != r
+}
