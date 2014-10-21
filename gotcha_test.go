@@ -80,7 +80,7 @@ func TestComparatorFailsOnFalse(t *testing.T) {
 		return i*5 == j
 	}, "the message")
 
-	Assert(t).AreEqual("the message", fake.receivedMessage, "Expected the comparator to return false and be a failure")
+	Assert(t).IsTrue(strings.HasSuffix(fake.receivedMessage, "the message"), "Expected the comparator to return false and be a failure")
 }
 
 func TestComparatorFailsWhenMismatchedElementCount(t *testing.T) {

@@ -92,7 +92,7 @@ func (a *Asserter) EachMatch(left []interface{}, right []interface{}, comparator
 	for i, l := range left {
 		r := right[i]
 		if !comparator(l, r) {
-			a.t.Fatalf(message)
+			a.t.Fatalf("%s: %s", callerString(), message)
 		}
 	}
 }
