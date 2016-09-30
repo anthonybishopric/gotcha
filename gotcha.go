@@ -6,6 +6,7 @@ package gotcha
 import (
 	"fmt"
 	"path"
+	"reflect"
 	"runtime"
 )
 
@@ -61,15 +62,27 @@ func (a *Asserter) AreNotEqual(left, right interface{}, message string) *Asserte
 	return a
 }
 
+func isNil(subject interface{}) bool {
+	if subject == nil {
+		return true
+	}
+	value := reflect.ValueOf(subject)
+	kind := value.Kind()
+	if kind >= reflect.Chan && kind <= reflect.Slice && value.IsNil() {
+		return true
+	}
+	return false
+}
+
 func (a *Asserter) IsNil(subject interface{}, message string) *Asserter {
-	if subject != nil {
+	if !isNil(subject) {
 		a.t.Fatalf("%s: %s. Expected %+v to be nil", callerString(), message, subject)
 	}
 	return a
 }
 
 func (a *Asserter) IsNotNil(subject interface{}, message string) *Asserter {
-	if subject == nil {
+	if isNil(subject) {
 		a.t.Fatalf("%s: %s. Was unexepectedly nil", callerString(), message)
 	}
 	return a

@@ -92,3 +92,15 @@ func TestComparatorFailsWhenMismatchedElementCount(t *testing.T) {
 
 	Assert(t).IsTrue(strings.HasSuffix(fake.receivedMessage, "the message. Left and right don't match in length. (3, 4)"), "Expected the comparator to return false and be a failure")
 }
+
+func TestIsNilPassesOnNil(t *testing.T) {
+	type A struct {
+		a *A
+	}
+	fake := FakeTest{}
+	Assert(&fake).IsNil(A{}.a, "the message")
+
+	if fake.receivedMessage != "" {
+		t.Fatal("Expected test to fatal")
+	}
+}
